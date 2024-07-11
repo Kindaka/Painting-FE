@@ -166,13 +166,19 @@ export default function DashBoard() {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+  const [userData, setUserData] = useState({ fullname: "", role: "" });
+  useEffect(() => {
+    const accessToken = localStorage.getItem("accessToken");
+    const fullname = localStorage.getItem("fullname");
+    const role = localStorage.getItem("role");
 
-  const accessToken = localStorage.getItem("accessToken");
-  const fullname = localStorage.getItem("fullname");
-  const role = localStorage.getItem("role");
-  if (!accessToken || !fullname || !role) {
-    router.push("/login");
-  }
+    if (accessToken && fullname && role) {
+      setUserData({ fullname, role });
+    } else {
+      router.push("/login");
+    }
+    setLoading(false);
+  }, []);
 
   const { data, isError, error } = useGetAllPaintingColorsQuery();
 
@@ -283,7 +289,7 @@ export default function DashBoard() {
                 alt="logo"
                 src="https://cdn.popsww.com/blog/sites/2/2023/06/phong-tru-sanemi.jpg"
               />
-              <div className="user-name">{fullname}</div>
+              <div className="user-name">{userData.fullname}</div>
             </div>
           </Dropdown>
         </Header>

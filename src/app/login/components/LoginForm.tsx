@@ -8,10 +8,12 @@ import { useRouter } from "next/navigation";
 export default function LoginForm() {
   const router = useRouter();
 
-  const accessToken = localStorage.getItem("accessToken");
-  if (accessToken) {
-    router.push("/dashboard");
-  }
+  useEffect(() => {
+    const accessToken = localStorage.getItem("accessToken");
+    if (accessToken) {
+      router.push("/dashboard");
+    }
+  }, []);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
